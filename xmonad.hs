@@ -38,8 +38,8 @@ myKeys c = mkKeymap c $
            ++
            [(m ++ k, windows $ f w)
                 | (w, k) <- zip (XMonad.workspaces c) (map show [1..9])
-           , (m, f) <- [("M-",W.greedyView), ("M-S-",W.shift)]]
- 
+                , (m, f) <- [("M-",W.greedyView), ("M-S-",W.shift)]]
+
 trackPointSetup = spawn "xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5"
 
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
@@ -82,6 +82,8 @@ myLogHook xmobar = dynamicLogWithPP $ defaultPP {
                                         _ -> "?"
                    }
  
+
+myWorkspaces = ["1:main","2","3","4","5","6","7","8","9:services"]
  
 main = do xmobar <- spawnPipe "xmobar"
           xmonad $ defaultConfig {
@@ -90,7 +92,7 @@ main = do xmobar <- spawnPipe "xmobar"
                        borderWidth        = 2,
                        modMask            = mod4Mask,
                        numlockMask        = 0,
-                       workspaces         = [ show x | x <- [1..9] ],
+                       workspaces         = myWorkspaces,
                        normalBorderColor  = "#444",
                        focusedBorderColor = "#f00",
                        keys               = myKeys,
