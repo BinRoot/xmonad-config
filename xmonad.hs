@@ -64,12 +64,13 @@ myManageHook = composeAll
     where moveToC c w = className =? c --> doF (W.shift w)
           moveToT t w = title     =? t --> doF (W.shift w)
           floatC  c   = className =? c --> doFloat
+
  
  
 myLogHook xmobar = dynamicLogWithPP $ defaultPP {
                      ppOutput = hPutStrLn xmobar
                    , ppTitle = xmobarColor "white" "" . shorten 110
-                   , ppCurrent = xmobarColor "white" "black" . pad
+                   , ppCurrent = xmobarColor "yellow" "black" . pad
                    , ppHidden = pad
                    , ppHiddenNoWindows = \w -> xmobarColor "#444" "" (" " ++ w ++ " ")
                    , ppSep = xmobarColor "#555" "" " / "
