@@ -83,7 +83,19 @@ myLogHook xmobar = dynamicLogWithPP $ defaultPP {
                    }
  
 
-startUpApps = spawn "nm-applet & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5 & xrandr --auto --output VGA1 --mode 1920x1080 --right-of LVDS1"
+startUpApps = spawn "nm-applet & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5 & xrandr --auto --output VGA1 --mode 1920x1080 --right-of LVDS1 & gnome-power-manager"
+
+startUp_nmapplet = "nm-applet"
+startUp_trackpoint = "xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5"
+startUp_dualscreen = "xrandr --auto --output VGA1 --mode 1920x1080 --right-of LVDS1 "
+startUp_powermanager = "gnome-power-manager"
+
+-- doesn't work for some reason
+startUpApps' = (
+               startUp_nmapplet ++ " & " ++
+               startUp_trackpoint ++ " & " ++
+               startUp_dualscreen ++ " & " ++
+               startUp_powermanager)
 
 
 myWorkspaces = ["1:main","2","3","4","5","6","7","8","9:services"]
