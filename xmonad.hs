@@ -30,7 +30,7 @@ myKeys c = mkKeymap c $
            , ("M-t",          withFocused $ windows . W.sink)
            , ("M-x",          shellPrompt defaultXPConfig)
            , ("M-[",          spawn "nm-applet")
-           , ("M-]",          trackPointSetup)
+           , ("M-]",          spawn trackPointSetup)
            , ("<XF86AudioMute>", spawn "amixer -q set Master toggle")       
            , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master 2dB-")  
            , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master 2dB+")
@@ -40,7 +40,9 @@ myKeys c = mkKeymap c $
                 | (w, k) <- zip (XMonad.workspaces c) (map show [1..9])
                 , (m, f) <- [("M-",W.greedyView), ("M-S-",W.shift)]]
 
-trackPointSetup = spawn "xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5"
+trackPointSetup = "xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation\" 8 1 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Button\" 8 2 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Timeout\" 8 200 & xinput set-int-prop \"TPPS/2 IBM TrackPoint\" \"Evdev Wheel Emulation Axes\" 8 6 7 4 5"
+
+startUpApps = spawn (trackPointSetup ++ " & nm-applet")
 
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w))
@@ -85,7 +87,8 @@ myLogHook xmobar = dynamicLogWithPP $ defaultPP {
 
 myWorkspaces = ["1:main","2","3","4","5","6","7","8","9:services"]
  
-main = do xmobar <- spawnPipe "xmobar"
+main = do startUpApps
+	  xmobar <- spawnPipe "xmobar"
           xmonad $ defaultConfig {
                        terminal           = "gnome-terminal",
                        focusFollowsMouse  = True,
