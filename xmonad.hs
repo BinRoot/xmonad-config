@@ -15,6 +15,7 @@ import qualified Data.Map        as M
 
 myKeys c = mkKeymap c $
            [ ("M-<Return>",   spawn $ XMonad.terminal c)
+           , ("M-w",          spawn $ XMonad.terminal c)
            , ("M-<Space>",    sendMessage NextLayout)
            , ("M-<Tab>",      windows W.focusDown)
            , ("M-S-<Return>", windows W.swapMaster)
